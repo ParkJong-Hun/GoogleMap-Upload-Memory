@@ -41,7 +41,6 @@
         </activity>
         <activity android:name=".MapActivity" android:label="내지도"></activity>
         <activity android:name=".UserCreateActivity" android:windowSoftInputMode="adjustResize" android:label="회원가입"></activity>
-        <activity android:name=".MyMap" android:label="내지도"></activity>
     </application>
 
 </manifest>
