@@ -53,12 +53,15 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             String idOutput = data.getStringExtra("id");
             String pwOutput = data.getStringExtra("password");
             id.setText(idOutput);
             password.setText(pwOutput);
             Toast.makeText(getApplicationContext(), "회원가입이 성공적으로 완료되었습니다.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "회원가입이 실패했습니다." + resultCode, Toast.LENGTH_SHORT).show();
         }
     }
 

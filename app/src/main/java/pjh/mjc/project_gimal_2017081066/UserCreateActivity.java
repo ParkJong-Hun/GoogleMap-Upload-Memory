@@ -24,8 +24,7 @@ public class UserCreateActivity extends AppCompatActivity {
 
         id = findViewById(R.id.id2);
         password = findViewById(R.id.pw2);
-        String idInput = id.getText().toString();
-        String pwInput = password.getText().toString();
+
 
         dbHelper = new UserDBHelper(this);
 
@@ -43,8 +42,10 @@ public class UserCreateActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                String idInput = id.getText().toString();
+                String pwInput = password.getText().toString();
                 db = dbHelper.getWritableDatabase();
-                if(!(idInput.equals("") && pwInput.equals(""))) {
+                if(!(idInput.equals("") || pwInput.equals(""))) {
                     db.execSQL("INSERT INTO user VALUES ( '" + idInput + "', ''" + pwInput + "');");
                     db.close();
 
