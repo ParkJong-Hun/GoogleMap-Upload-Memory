@@ -2,9 +2,11 @@ package pjh.mjc.project_gimal_2017081066;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -34,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, MapActivity.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(getApplicationContext(), "로그인 정보가 일치하지 않습니다." + id.getText().toString() + password.getText().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "로그인 정보가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -58,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
             password.setText(pwOutput);
             Toast.makeText(getApplicationContext(), "회원가입이 성공적으로 완료되었습니다.", Toast.LENGTH_SHORT).show();
         } else if (resultCode == 0){
-            Toast.makeText(getApplicationContext(), "회원가입이 실패했습니다." + resultCode, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "회원가입이 실패했습니다.", Toast.LENGTH_SHORT).show();
         }
     }
 

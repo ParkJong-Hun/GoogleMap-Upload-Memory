@@ -20,6 +20,7 @@ public class UserCreateActivity extends AppCompatActivity {
     EditText id, password;
     Button cancel, submit;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,9 +32,6 @@ public class UserCreateActivity extends AppCompatActivity {
 
         //아이디 입력창에 자동으로 포커스
         id.requestFocus();
-        //키보드 입력 자동 키기
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
         //취소
         cancel = (Button)findViewById(R.id.cancel_button);
@@ -54,7 +52,7 @@ public class UserCreateActivity extends AppCompatActivity {
                 String pwInput = password.getText().toString();
                 db = dbHelper.getWritableDatabase();
                 //조건에 맞지 않으면 회원가입 안되게 하기
-                if(!(idInput.equals("") || pwInput.equals("") || idInput.length() > 15 || pwInput.length() > 15)) {
+                if(!(idInput.equals("") || pwInput.equals(""))) {
                     db.execSQL("INSERT INTO user VALUES ('" + idInput + "', '" + pwInput + "');");
                     db.close();
 
@@ -63,6 +61,8 @@ public class UserCreateActivity extends AppCompatActivity {
                     submit_intent.putExtra("password", pwInput);
                     setResult(RESULT_OK, submit_intent);
                     finish();
+                } else if (idInput.length() > 15 || pwInput.length() > 15){
+                    Toast.makeText(getApplicationContext(), "15자 이내로 입력해주세요.", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "정보를 모두 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }
