@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
-    UserDBHelper dbHelper;
     EditText id, password;
     Button userCreateButton, loginButton;
 
@@ -24,8 +23,6 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText)findViewById(R.id.pw);
         userCreateButton = (Button)findViewById(R.id.user_create);
         loginButton = (Button)findViewById(R.id.login);
-
-        dbHelper = new UserDBHelper(this);
 
         //로그인 버튼
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
             id.setText(idOutput);
             password.setText(pwOutput);
             Toast.makeText(getApplicationContext(), "회원가입이 성공적으로 완료되었습니다.", Toast.LENGTH_SHORT).show();
-        } else {
+        } else if (resultCode == 0){
             Toast.makeText(getApplicationContext(), "회원가입이 실패했습니다." + resultCode, Toast.LENGTH_SHORT).show();
         }
     }

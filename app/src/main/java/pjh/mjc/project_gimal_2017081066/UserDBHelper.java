@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class UserDBHelper extends SQLiteOpenHelper {
-    public UserDBHelper(Context context) { super(context, "user", null, 1); }
+    public UserDBHelper(Context context) { super(context, "naverDB", null, 1); }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
