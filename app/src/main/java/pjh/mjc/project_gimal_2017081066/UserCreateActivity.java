@@ -11,9 +11,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
+//회원가입창
 public class UserCreateActivity extends AppCompatActivity {
-
+    
+    //선언
     UserDBHelper dbHelper;
     SQLiteDatabase db;
 
@@ -25,9 +26,10 @@ public class UserCreateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_create);
+
+        //바인딩
         id = findViewById(R.id.id2);
         password = findViewById(R.id.pw2);
-
         dbHelper = new UserDBHelper(this);
 
         //아이디 입력창에 자동으로 포커스
