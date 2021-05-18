@@ -16,6 +16,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     //선언
@@ -56,14 +57,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             gMap.setMyLocationEnabled(true);//현재 위치 설정
             gMap.getUiSettings().setMyLocationButtonEnabled(true);//내 위치 버튼 사용
         }
-
-/*        //월드컵 경기장 좌표에 마킹, 스니펫
-        MarkerOptions markerOptions = new MarkerOptions();//마커 객체 생성
-        markerOptions.position(location);//위치 설정
-        markerOptions.title("월드컵경기장");//스니펫 제목
-        markerOptions.snippet("2012년 월드컵 게최");//스니펫 본문
-        markerOptions.alpha(0.7f);//투명도
-        gMap.addMarker(markerOptions);//지도에 마커 생성*/
+        gMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                Intent intent = new Intent(MapActivity.this, PostActivity.class);
+                intent.putExtra("latLng", latLng);
+                startActivityForResult(intent, 0);
+                /*
+                onActivityResult에서
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+                markerOptions.title("제목");
+                markerOptions.snippet("스니펫");
+                markerOptions.alpha(0.9f);
+                gMap.addMarker(markerOptions);
+                 */
+            }
+        });
     }
 
     @Override
@@ -71,8 +81,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreateOptionsMenu(menu);
 
         menu.add(0, 1, 0, "목록으로 보기");
-        menu.add(0, 2, 0, "다른 사람의 지도 보기");//if 현재 보는 map이 상대방의 map이라면 내 지도 보기
-        menu.add(0, 3, 0, "로그아웃");
+        menu.add(0, 2, 0, "로그아웃");
         return true;
     }
 
@@ -83,15 +92,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 //목록으로 보기
                 return true;
             case 2:
-                //다른 사람의 지도 보기
-            case 3:
                 //로그아웃
                 return true;
         }
         return false;//case에 없는 것 클릭하거나, 아예 클릭 안하면 처리 안함 알림.
     }
 
-    private void getLocationPermission() {
-
-    }
 }

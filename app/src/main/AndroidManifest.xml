@@ -39,8 +39,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MapActivity" android:label="내지도"></activity>
+
         <activity android:name=".UserCreateActivity" android:windowSoftInputMode="adjustResize" android:label="회원가입"></activity>
+
+        <activity android:name=".MapActivity" android:label="내지도"></activity>
+
+        <activity android:name=".PostActivity" android:label="게시글 작성"></activity>
     </application>
 
 </manifest>
