@@ -6,6 +6,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -24,6 +27,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     GoogleMap gMap;
     //+ 그라운드오버레이(투명한 레이어. 기타 맵 기능을 넣음.(마커 등)) 선언
     GroundOverlayOptions videoMark;
+    ImageButton post_here;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         mapFrag = (MapFragment) getFragmentManager().findFragmentById(R.id.map);//XML로 만든 것을 FragmentManager로 바인딩해서 MapFragment 객체 생성.
         mapFrag.getMapAsync(this);//onMapReady을 비동기 호출해서 불러오기
+        post_here = findViewById(R.id.post_here);
+        //TODO: 버튼 클릭 이벤트 리스너
+        post_here.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
+
+
     }
 
     @Override
@@ -76,6 +90,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
+    //TODO: 현재 위치 버튼 클릭시 현재 위치 갱신되면서 이동
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {//오버플로우 메뉴 만들기
         super.onCreateOptionsMenu(menu);
@@ -98,4 +114,5 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return false;//case에 없는 것 클릭하거나, 아예 클릭 안하면 처리 안함 알림.
     }
 
+    //TODO: 포스트 완료 하고 돌아왔을 때 마커 생성. 좌표 상 반올림했을 때 똑같은 위치에 마커가 있으면, 한 마커에 여러 게시글 표시하게
 }

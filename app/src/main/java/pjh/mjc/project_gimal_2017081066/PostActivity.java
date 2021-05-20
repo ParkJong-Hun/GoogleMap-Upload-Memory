@@ -9,5 +9,6 @@ public class PostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post);
+        //TODO: 포스트하기 구현
     }
 }

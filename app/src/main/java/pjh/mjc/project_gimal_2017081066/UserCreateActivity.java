@@ -45,7 +45,7 @@ public class UserCreateActivity extends AppCompatActivity {
                 finish();
             }
         });
-        //로그인 완료
+        //회원가입 정보 입력 완료
         submit = (Button)findViewById(R.id.submit_button);
         submit.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -55,6 +55,7 @@ public class UserCreateActivity extends AppCompatActivity {
                 String pwInput = password.getText().toString();
                 db = dbHelper.getWritableDatabase();
                 //조건에 맞지 않으면 회원가입 안되게 하기
+                //TODO: 회원가입할 때 중복된 아이디가 있는지 체크
                 if(!(idInput.equals("") || pwInput.equals(""))) {
                     db.execSQL("INSERT INTO user VALUES ('" + idInput + "', '" + pwInput + "');");
                     db.close();
