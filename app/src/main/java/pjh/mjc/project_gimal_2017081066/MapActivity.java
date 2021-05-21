@@ -82,6 +82,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 startActivityForResult(intent, 0);
             }
         });
+        
+        //TODO: 지도에 자신의 계정의 게시글을 마커로 표시
     }
 
     //현재 위치 좌표 요청, 카메라 전환
@@ -124,7 +126,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return false;//case에 없는 것 클릭하거나, 아예 클릭 안하면 처리 안함 알림.
     }
 
-    //TODO: 포스트 완료 하고 돌아왔을 때 마커 생성. 좌표 상 반올림했을 때 똑같은 위치에 마커가 있으면, 한 마커에 여러 게시글 표시하게
+    //TODO: 포스트 완료 하고 돌아왔을 때 갱신해서 마커 생성. 좌표 상 반올림했을 때 똑같은 위치에 마커가 있으면, 한 마커에 여러 게시글 표시하게
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -138,6 +140,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
           markerOptions.alpha(0.9f);
           gMap.addMarker(markerOptions);
        */
+        } else {
+
         }
     }
 }
