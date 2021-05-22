@@ -94,8 +94,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Location lastlocation = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (lastlocation != null) {
                 Intent intent = new Intent(this, PostingActivity.class);
+                intent.putExtra("Lat", lastlocation.getLatitude());
+                intent.putExtra("Lng", lastlocation.getLongitude());
                 startActivityForResult(intent, 0);
-                Toast.makeText(MapActivity.this, "최근 위치: " + lastlocation.getLatitude() + "," + lastlocation.getLongitude(), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "현재 위치에 대한 정보가 없습니다. 현재 위치 버튼을 클릭해주세요.", Toast.LENGTH_SHORT).show();
             }
         } catch (SecurityException e) {
             e.printStackTrace();
