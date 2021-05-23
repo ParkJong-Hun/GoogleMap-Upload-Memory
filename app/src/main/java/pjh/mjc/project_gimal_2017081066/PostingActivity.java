@@ -1,5 +1,6 @@
 package pjh.mjc.project_gimal_2017081066;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,8 +18,10 @@ public class PostingActivity extends AppCompatActivity {
     //선언
     Button cancel, submit, upload;
     EditText title, article;
-    TextView url;
+    TextView url_text;
     Uri uri;
+    String url_str = "", title_str = "", article_str = "";
+    Double longitude, latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +34,13 @@ public class PostingActivity extends AppCompatActivity {
         title = findViewById(R.id.post_title);
         article = findViewById(R.id.post_article);
 
-        url = findViewById(R.id.upload_file);
+        url_text = findViewById(R.id.upload_file);
         upload = findViewById(R.id.upload_file_button);
 
         //좌표값 받아오기
         Intent intent = getIntent();
-        intent.getDoubleExtra("Lat", 0);
-        intent.getDoubleExtra("Lng", 0);
+        longitude = intent.getDoubleExtra("Lat", 0);
+        latitude = intent.getDoubleExtra("Lng", 0);
 
         //이미지 업로드
         upload.setOnClickListener(new View.OnClickListener() {
@@ -60,14 +64,20 @@ public class PostingActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(uri.equals("")) {//이미지 업로드 x?
-                    //insert
+                title_str = title.getText().toString();
+                article_str = article.getText().toString();
+                if(!(title_str.equals("") || article_str.equals(""))) {
+                    if (url_str.equals("")) {//이미지 업로드 x?
+                        PostingDialog dlg = new PostingDialog(PostingActivity.this);
+                        dlg.show();
+                    } else {//이미지 업로드?
+                        PostingDialog dlg = new PostingDialog(PostingActivity.this);
+                        dlg.show();
+                    }
                     setResult(RESULT_OK);
                     finish();
-                } else if(false) {//이미지 업로드?
-                    //insert
-                    setResult(RESULT_OK);
-                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -80,8 +90,10 @@ public class PostingActivity extends AppCompatActivity {
         if (requestCode == 0) {
             try {//이미지 선택안하고 돌아올 수 있으니깐 nullPointException 안되게
                 uri = data.getData();
-                url.setText(uri.toString());
+                url_str = uri.toString();
+                url_text.setText(url_str);
             } catch (Exception e) {
+                url_text.setText("...");
             }
         }
     }
