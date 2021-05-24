@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="300dp"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
@@ -48,15 +48,9 @@
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal">
         <Button
-            android:id="@+id/dialog_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="CANCEL"/>
-        <Button
             android:id="@+id/dialog_submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SUBMIT"/>
+            android:text="CLOSE"/>
     </LinearLayout>
 </LinearLayout>

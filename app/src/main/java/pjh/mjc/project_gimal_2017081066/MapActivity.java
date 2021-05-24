@@ -46,7 +46,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapFrag = (MapFragment) getFragmentManager().findFragmentById(R.id.map);//XML로 만든 것을 FragmentManager로 바인딩해서 MapFragment 객체 생성.
         mapFrag.getMapAsync(this);//onMapReady을 비동기 호출해서 불러오기
         post_here = findViewById(R.id.post_here);
-        //TODO: 버튼 클릭 이벤트 리스너
         post_here.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +92,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             //현재 위치 좌표 출력
             Location lastlocation = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (lastlocation != null) {
+                //현재 위치로 바꾸면서, 글 작성 액티비티로 이동
                 Intent intent = new Intent(this, PostingActivity.class);
                 intent.putExtra("Lat", lastlocation.getLatitude());
                 intent.putExtra("Lng", lastlocation.getLongitude());
@@ -133,16 +133,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK) {
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(1, 1), 17));//포스트한 곳으로 이동
-            /*onActivityResult에서
-          MarkerOptions markerOptions = new MarkerOptions();
-          markerOptions.position(latLng);
-          markerOptions.title("제목");
-          markerOptions.snippet("스니펫");
-          markerOptions.alpha(0.9f);
-          gMap.addMarker(markerOptions);
-       */
+        if(requestCode == 0) {//PostingActivity
+            if(resultCode == RESULT_OK) {
+                    Intent out_intent = getIntent();
+                    String out_title = out_intent.getStringExtra("out_title");
+                    String out_article = out_intent.getStringExtra("out_article");
+                    Double out_latitude = out_intent.getDoubleExtra("out_latitude", 0);
+                    Double out_longitude = out_intent.getDoubleExtra("out_longitude", 0);
+                    String out_date = out_intent.getStringExtra("out_date");
+                    //map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(1, 1), 17));//포스트한 곳으로 이동
+                    /*onActivityResult에서
+                  MarkerOptions markerOptions = new MarkerOptions();
+                  markerOptions.position(latLng);
+                  markerOptions.title("제목");
+                  markerOptions.snippet("스니펫");
+                  markerOptions.alpha(0.9f);
+                  gMap.addMarker(markerOptions);
+               */
+            }
         } else {
 
         }

@@ -14,6 +14,12 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
 public class PostingActivity extends AppCompatActivity {
     //선언
     Button cancel, submit, upload;
@@ -66,16 +72,30 @@ public class PostingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 title_str = title.getText().toString();
                 article_str = article.getText().toString();
+                //작성 시간 기준 한국 표준시로 date 객체 생성해서 문자열로 만듦.
+                long now = System.currentTimeMillis();
+                TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
+                Date mDate = new Date(now);
+                SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.KOREAN);
+                simpleDate.setTimeZone(tz);
+                String getTime = simpleDate.format(mDate);
+                //Dialog 표시
                 if(!(title_str.equals("") || article_str.equals(""))) {
                     if (url_str.equals("")) {//이미지 업로드 x?
-                        PostingDialog dlg = new PostingDialog(PostingActivity.this);
+                        PostingDialog dlg = new PostingDialog(PostingActivity.this, title_str, article_str, latitude, longitude, getTime);
                         dlg.show();
                     } else {//이미지 업로드?
-                        PostingDialog dlg = new PostingDialog(PostingActivity.this);
+                        PostingDialog dlg = new PostingDialog(PostingActivity.this, title_str, article_str, latitude, longitude, url_str, getTime);
                         dlg.show();
                     }
+                    Intent out_Intent = new Intent(PostingActivity.this, MapActivity.class);
+                    //MapActivity에 값 보내기.
+                    out_Intent.putExtra("out_title", title_str);
+                    out_Intent.putExtra("out_article", article_str);
+                    out_Intent.putExtra("out_latitude", latitude);
+                    out_Intent.putExtra("out_longitude", longitude);
+                    out_Intent.putExtra("out_date", getTime);
                     setResult(RESULT_OK);
-                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }
