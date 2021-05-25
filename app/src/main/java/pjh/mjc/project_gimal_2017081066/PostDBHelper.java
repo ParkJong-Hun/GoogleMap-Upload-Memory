@@ -9,12 +9,12 @@ public class PostDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE user (id VARCHAR(15) PRIMARY KEY, password VARCHAR(15));");
+        db.execSQL("CREATE TABLE post (id VARCHAR(15) PRIMARY KEY, password VARCHAR(15));");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS user");
+        db.execSQL("DROP TABLE IF EXISTS post");
         onCreate(db);
     }
 }

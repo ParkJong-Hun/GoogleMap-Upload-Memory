@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -31,6 +32,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     //+ 그라운드오버레이(투명한 레이어. 기타 맵 기능을 넣음.(마커 등)) 선언
     GroundOverlayOptions videoMark;
     ImageButton post_here;
+    PostDBHelper dbHelper;
+    SQLiteDatabase db;
 
 
     @Override
@@ -45,6 +48,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         mapFrag = (MapFragment) getFragmentManager().findFragmentById(R.id.map);//XML로 만든 것을 FragmentManager로 바인딩해서 MapFragment 객체 생성.
         mapFrag.getMapAsync(this);//onMapReady을 비동기 호출해서 불러오기
+
+        dbHelper = new PostDBHelper(this);
+
         post_here = findViewById(R.id.post_here);
         post_here.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,17 +137,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     //TODO: 포스트 완료 하고 돌아왔을 때 갱신해서 마커 생성. 좌표 상 반올림했을 때 똑같은 위치에 마커가 있으면, 한 마커에 여러 게시글 표시하게
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 0) {//PostingActivity
             if(resultCode == RESULT_OK) {
-                    Intent out_intent = getIntent();
-                    String out_title = out_intent.getStringExtra("out_title");
-                    String out_article = out_intent.getStringExtra("out_article");
-                    Double out_latitude = out_intent.getDoubleExtra("out_latitude", 0);
-                    Double out_longitude = out_intent.getDoubleExtra("out_longitude", 0);
-                    String out_date = out_intent.getStringExtra("out_date");
-                    //map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(1, 1), 17));//포스트한 곳으로 이동
+                String out_title = data.getStringExtra("out_title");
+                String out_article = data.getStringExtra("out_article");
+                Double out_latitude = data.getDoubleExtra("out_latitude", 0);
+                Double out_longitude = data.getDoubleExtra("out_longitude", 0);
+                String out_date = data.getStringExtra("out_date");
+                //포스트한 곳으로 이동
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(out_latitude, out_longitude), 17));
+                //DB에 추가
+                db = dbHelper.getWritableDatabase();
+                db.execSQL("INSERT INTO post");
                     /*onActivityResult에서
                   MarkerOptions markerOptions = new MarkerOptions();
                   markerOptions.position(latLng);

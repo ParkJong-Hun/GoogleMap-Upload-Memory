@@ -70,8 +70,8 @@ public class PostingDialog {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((PostingActivity)context).finish();
                 dlg.dismiss();
+                ((PostingActivity)context).finish();
             }
         });
     }

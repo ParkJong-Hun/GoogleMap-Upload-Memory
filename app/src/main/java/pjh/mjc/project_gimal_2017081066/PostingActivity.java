@@ -45,8 +45,8 @@ public class PostingActivity extends AppCompatActivity {
 
         //좌표값 받아오기
         Intent intent = getIntent();
-        longitude = intent.getDoubleExtra("Lat", 0);
-        latitude = intent.getDoubleExtra("Lng", 0);
+        longitude = intent.getDoubleExtra("Lng", 0);
+        latitude = intent.getDoubleExtra("Lat", 0);
 
         //이미지 업로드
         upload.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +95,7 @@ public class PostingActivity extends AppCompatActivity {
                     out_Intent.putExtra("out_latitude", latitude);
                     out_Intent.putExtra("out_longitude", longitude);
                     out_Intent.putExtra("out_date", getTime);
-                    setResult(RESULT_OK);
+                    setResult(RESULT_OK, out_Intent);
                 } else {
                     Toast.makeText(getApplicationContext(), "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }
