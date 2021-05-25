@@ -57,7 +57,7 @@ public class UserCreateActivity extends AppCompatActivity {
                 //조건에 맞지 않으면 회원가입 안되게 하기
                 //TODO: 회원가입할 때 중복된 아이디가 있는지 체크
                 if(!(idInput.equals("") || pwInput.equals(""))) {
-                    db.execSQL("INSERT INTO user VALUES ('" + idInput + "', '" + pwInput + "');");
+                    db.execSQL("INSERT INTO User VALUES ('" + idInput + "', '" + pwInput + "');");
                     db.close();
 
                     Intent submit_intent = new Intent(UserCreateActivity.this, LoginActivity.class);

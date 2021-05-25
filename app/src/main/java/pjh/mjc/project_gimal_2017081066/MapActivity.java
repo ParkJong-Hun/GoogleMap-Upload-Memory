@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationManager;
@@ -34,7 +35,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     ImageButton post_here;
     PostDBHelper dbHelper;
     SQLiteDatabase db;
-
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.map);
 
         Intent intent = getIntent();
-        setTitle(intent.getStringExtra("id"));
+        id = intent.getStringExtra("id");
+        setTitle(id);
 
         ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.ACCESS_FINE_LOCATION}, MODE_PRIVATE);
 
@@ -146,11 +148,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 Double out_latitude = data.getDoubleExtra("out_latitude", 0);
                 Double out_longitude = data.getDoubleExtra("out_longitude", 0);
                 String out_date = data.getStringExtra("out_date");
+                String out_url = data.getStringExtra("out_url");
                 //포스트한 곳으로 이동
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(out_latitude, out_longitude), 17));
                 //DB에 추가
+                db = dbHelper.getReadableDatabase();
+                Cursor cursor;
+                cursor = db.rawQuery("SELECT code FROM Post ORDER BY code DESC;", null);
+                int num = 1;
+                //데이터가 아무것도 없으면 1로, 데이터가 테이블에 하나라도 있으면 코드를 그 값의 + 1로 만듦.
+                if(cursor.moveToNext()) {
+                    try {
+                        num = cursor.getInt(0) + 1;
+                    } catch (Exception e) {
+                    }
+                }
+                db.close();
                 db = dbHelper.getWritableDatabase();
-                db.execSQL("INSERT INTO post");
+                db.execSQL("INSERT INTO Post VALUES(" + num + ", '" + out_title + "', ''" + out_article + "', '" + out_url + "', '" + out_latitude + "', '" + out_longitude + "', '" + out_date + "', '" + id + "');");
                     /*onActivityResult에서
                   MarkerOptions markerOptions = new MarkerOptions();
                   markerOptions.position(latLng);

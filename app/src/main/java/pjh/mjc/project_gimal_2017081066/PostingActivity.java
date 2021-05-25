@@ -81,14 +81,16 @@ public class PostingActivity extends AppCompatActivity {
                 String getTime = simpleDate.format(mDate);
                 //Dialog 표시
                 if(!(title_str.equals("") || article_str.equals(""))) {
+                    Intent out_Intent = new Intent(PostingActivity.this, MapActivity.class);
                     if (url_str.equals("")) {//이미지 업로드 x?
                         PostingDialog dlg = new PostingDialog(PostingActivity.this, title_str, article_str, latitude, longitude, getTime);
                         dlg.show();
                     } else {//이미지 업로드?
                         PostingDialog dlg = new PostingDialog(PostingActivity.this, title_str, article_str, latitude, longitude, url_str, getTime);
+                        //url 값 보내기
+                        out_Intent.putExtra("out_url", url_str);
                         dlg.show();
                     }
-                    Intent out_Intent = new Intent(PostingActivity.this, MapActivity.class);
                     //MapActivity에 값 보내기.
                     out_Intent.putExtra("out_title", title_str);
                     out_Intent.putExtra("out_article", article_str);
