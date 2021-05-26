@@ -53,6 +53,8 @@
         <activity android:name=".MapActivity" android:label="내지도"></activity>
 
         <activity android:name=".PostingActivity" android:label="게시글 작성"></activity>
+
+        <activity android:name=".PostActivity" android:label="게시글"></activity>
     </application>
 
 </manifest>

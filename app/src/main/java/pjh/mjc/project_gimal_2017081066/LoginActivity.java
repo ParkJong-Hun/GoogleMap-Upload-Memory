@@ -46,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
                     if((idValue.equals(cursor.getString(0))) && (pwValue.equals(cursor.getString(1)))) {
                         Intent intent = new Intent(LoginActivity.this, MapActivity.class);
                         intent.putExtra("id", idValue);
+                        db.close();
                         startActivity(intent);
                     } else {
                         Toast.makeText(getApplicationContext(), "패스워드가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();

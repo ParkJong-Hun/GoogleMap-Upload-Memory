@@ -25,6 +25,8 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     //선언
@@ -33,7 +35,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     //+ 그라운드오버레이(투명한 레이어. 기타 맵 기능을 넣음.(마커 등)) 선언
     GroundOverlayOptions videoMark;
     ImageButton post_here;
-    PostDBHelper dbHelper;
+    UserDBHelper dbHelper;
     SQLiteDatabase db;
     String id;
 
@@ -51,8 +53,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapFrag = (MapFragment) getFragmentManager().findFragmentById(R.id.map);//XML로 만든 것을 FragmentManager로 바인딩해서 MapFragment 객체 생성.
         mapFrag.getMapAsync(this);//onMapReady을 비동기 호출해서 불러오기
 
-        dbHelper = new PostDBHelper(this);
-
         post_here = findViewById(R.id.post_here);
         post_here.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +61,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-
+        dbHelper = new UserDBHelper(this);
     }
 
     @Override
@@ -91,6 +91,43 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
         
         //TODO: 지도에 자신의 계정의 게시글을 마커로 표시
+        db = dbHelper.getReadableDatabase();
+        Cursor cursor;
+        cursor = db.rawQuery("SELECT * FROM Post WHERE poster='"+ id + "';", null);
+        while(cursor.moveToNext()){
+            LatLng newLatLng = new LatLng(cursor.getDouble(4), cursor.getDouble(5));
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(newLatLng);
+            markerOptions.alpha(0.9f);
+            map.addMarker(markerOptions);
+        }
+        db.close();
+        
+        //마커 클릭 이벤트
+        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                //이동
+
+                Intent intent = new Intent(MapActivity.this, PostActivity.class);
+                db = dbHelper.getReadableDatabase();
+                Cursor cursor;
+                cursor = db.rawQuery("SELECT * FROM Post WHERE latitude='" + marker.getPosition().latitude + "' and longitude='" + marker.getPosition().longitude + "' and poster='" + id + "';", null);
+                if(cursor.moveToNext()) {
+                    intent.putExtra("title", cursor.getString(1));
+                    intent.putExtra("article", cursor.getString(2));
+                    intent.putExtra("url", cursor.getString(3));
+                    intent.putExtra("lat", cursor.getDouble(4));
+                    intent.putExtra("lng", cursor.getDouble(5));
+                    intent.putExtra("date", cursor.getString(6));
+                    intent.putExtra("poster", cursor.getString(7));
+                    startActivityForResult(intent, 1);
+                    return true;
+                }
+                return false;
+            }
+        });
+
     }
 
     //현재 위치 좌표 요청, 카메라 전환
@@ -163,9 +200,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     } catch (Exception e) {
                     }
                 }
-                db.close();
                 db = dbHelper.getWritableDatabase();
-                db.execSQL("INSERT INTO Post VALUES(" + num + ", '" + out_title + "', ''" + out_article + "', '" + out_url + "', '" + out_latitude + "', '" + out_longitude + "', '" + out_date + "', '" + id + "');");
+                db.execSQL("INSERT INTO Post VALUES(" + num + ", '" + out_title + "', '" + out_article + "', '" + out_url + "', '" + out_latitude + "', '" + out_longitude + "', '" + out_date + "', '" + id + "');");
+                db.close();
+                //db 업데이트한 것 반영.
                     /*onActivityResult에서
                   MarkerOptions markerOptions = new MarkerOptions();
                   markerOptions.position(latLng);
