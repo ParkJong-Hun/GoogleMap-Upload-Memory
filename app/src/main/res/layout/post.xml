@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/dialog_title"
+            android:id="@+id/post_real_title"
             android:text="제목"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
@@ -25,14 +25,14 @@
             android:textSize="18dp"
             android:textStyle="bold"/>
         <ImageView
-            android:id="@+id/dialog_image"
+            android:id="@+id/post_real_image"
             android:layout_width="350dp"
             android:layout_height="225dp"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
             tools:visibility="gone" />
         <TextView
-            android:id="@+id/dialog_date"
+            android:id="@+id/post_real_date"
             android:layout_gravity="right"
             android:text="날짜"
             android:textSize="10dp"
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
-            android:id="@+id/dialog_article"
+            android:id="@+id/post_real_article"
             android:text="본문"
             android:layout_width="350dp"
             android:layout_height="wrap_content"

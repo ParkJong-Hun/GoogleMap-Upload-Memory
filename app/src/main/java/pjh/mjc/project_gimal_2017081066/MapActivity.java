@@ -90,7 +90,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
         
-        //TODO: 지도에 자신의 계정의 게시글을 마커로 표시
+        //지도에 자신의 계정의 게시글을 마커로 표시
         db = dbHelper.getReadableDatabase();
         Cursor cursor;
         cursor = db.rawQuery("SELECT * FROM Post WHERE poster='"+ id + "';", null);
@@ -174,7 +174,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return false;//case에 없는 것 클릭하거나, 아예 클릭 안하면 처리 안함 알림.
     }
 
-    //TODO: 포스트 완료 하고 돌아왔을 때 갱신해서 마커 생성. 좌표 상 반올림했을 때 똑같은 위치에 마커가 있으면, 한 마커에 여러 게시글 표시하게
+    //포스트 완료 하고 돌아왔을 때 갱신해서 마커 생성. 좌표 상 반올림했을 때 똑같은 위치에 마커가 있으면, 한 마커에 여러 게시글 표시하게
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -204,16 +204,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 db.execSQL("INSERT INTO Post VALUES(" + num + ", '" + out_title + "', '" + out_article + "', '" + out_url + "', '" + out_latitude + "', '" + out_longitude + "', '" + out_date + "', '" + id + "');");
                 db.close();
                 //db 업데이트한 것 반영.
-                    /*onActivityResult에서
-                  MarkerOptions markerOptions = new MarkerOptions();
-                  markerOptions.position(latLng);
-                  markerOptions.title("제목");
-                  markerOptions.snippet("스니펫");
-                  markerOptions.alpha(0.9f);
-                  gMap.addMarker(markerOptions);
-               */
+                LatLng newLatLng = new LatLng(out_latitude, out_longitude);
+                MarkerOptions new_markerOptions = new MarkerOptions();
+                new_markerOptions.position(newLatLng);
+                new_markerOptions.alpha(0.9f);
+                map.addMarker(new_markerOptions);
             }
-        } else {
+        } else if(requestCode==1){
 
         }
     }
