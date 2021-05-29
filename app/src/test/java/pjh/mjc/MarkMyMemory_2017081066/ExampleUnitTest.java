@@ -1,4 +1,4 @@
-package pjh.mjc.project_gimal_2017081066;
+package pjh.mjc.MarkMyMemory_2017081066;
 
 import org.junit.Test;
 

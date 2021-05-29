@@ -1,7 +1,6 @@
-package pjh.mjc.project_gimal_2017081066;
+package pjh.mjc.MarkMyMemory_2017081066;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,10 +12,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 //게시글창
 public class PostActivity extends AppCompatActivity {
@@ -61,9 +56,10 @@ public class PostActivity extends AppCompatActivity {
         dbHelper = new DBHelper(this);
 
         //null이 아니면 이미지 표시
-        if(!(url.equals("null")) ) {
+        if(!(url.equals("null"))) {
             image.setVisibility(View.VISIBLE);
             try {
+                Toast.makeText(getApplicationContext(), url, Toast.LENGTH_SHORT).show();
                 Uri uri = Uri.parse("file://" + url);
                 image.setImageURI(uri);
             } catch (Exception e) {

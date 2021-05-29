@@ -1,4 +1,4 @@
-package pjh.mjc.project_gimal_2017081066;
+package pjh.mjc.MarkMyMemory_2017081066;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class PostingEditActivity extends AppCompatActivity {
+public class PostingActivity extends AppCompatActivity {
     //선언
     Button cancel, submit, upload;
     EditText title, article;
@@ -31,29 +31,21 @@ public class PostingEditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.posting_edit);
+        setContentView(R.layout.posting);
         //바인딩
-        cancel = findViewById(R.id.post_edit_cancel_button);
-        submit = findViewById(R.id.post_edit_submit_button);
+        cancel = findViewById(R.id.post_cancel_button);
+        submit = findViewById(R.id.post_submit_button);
+        
+        title = findViewById(R.id.post_title);
+        article = findViewById(R.id.post_article);
 
-        title = findViewById(R.id.post_edit_title);
-        article = findViewById(R.id.post_edit_article);
-
-        url_text = findViewById(R.id.upload_edit_file);
-        upload = findViewById(R.id.upload_edit_file_button);
+        url_text = findViewById(R.id.upload_file);
+        upload = findViewById(R.id.upload_file_button);
 
         //좌표값 받아오기
         Intent intent = getIntent();
         longitude = intent.getDoubleExtra("Lng", 0);
         latitude = intent.getDoubleExtra("Lat", 0);
-        title_str = intent.getStringExtra("title");
-        article_str = intent.getStringExtra("article");
-        url_str = intent.getStringExtra("url");
-
-        title.setText(title_str);
-        article.setText(article_str);
-        url_text.setText(url_str);
-        if(url_text.getText().toString().equals("null")) url_text.setText("...");
 
         //이미지 업로드
         upload.setOnClickListener(new View.OnClickListener() {
@@ -88,13 +80,12 @@ public class PostingEditActivity extends AppCompatActivity {
                 String getTime = simpleDate.format(mDate);
                 //Dialog 표시
                 if(!(title_str.equals("") || article_str.equals(""))) {
-                    Intent out_Intent = new Intent(PostingEditActivity.this, PostActivity.class);
-                    if (url_str.equals("null")) {//이미지 업로드 x?
-                        PostingEditDialog dlg = new PostingEditDialog(PostingEditActivity.this, title_str, article_str, latitude, longitude, getTime);
-                        out_Intent.putExtra("out_url", url_str);
+                    Intent out_Intent = new Intent(PostingActivity.this, MapActivity.class);
+                    if (url_str.equals("")) {//이미지 업로드 x?
+                        PostingDialog dlg = new PostingDialog(PostingActivity.this, title_str, article_str, latitude, longitude, getTime);
                         dlg.show();
                     } else {//이미지 업로드?
-                        PostingEditDialog dlg = new PostingEditDialog(PostingEditActivity.this, title_str, article_str, latitude, longitude, url_str, getTime);
+                        PostingDialog dlg = new PostingDialog(PostingActivity.this, title_str, article_str, latitude, longitude, url_str, getTime);
                         //url 값 보내기
                         out_Intent.putExtra("out_url", url_str);
                         dlg.show();
@@ -105,7 +96,7 @@ public class PostingEditActivity extends AppCompatActivity {
                     out_Intent.putExtra("out_latitude", latitude);
                     out_Intent.putExtra("out_longitude", longitude);
                     out_Intent.putExtra("out_date", getTime);
-                    setResult(RESULT_FIRST_USER, out_Intent);
+                    setResult(RESULT_OK, out_Intent);
                 } else {
                     Toast.makeText(getApplicationContext(), "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }
