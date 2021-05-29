@@ -52,6 +52,26 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/post_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="편집"
+                tools:visibility="gone" />
+
+            <Button
+                android:id="@+id/post_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="삭제"
+                tools:visibility="gone" />
+        </LinearLayout>
     </LinearLayout>
     </ScrollView>
 </LinearLayout>

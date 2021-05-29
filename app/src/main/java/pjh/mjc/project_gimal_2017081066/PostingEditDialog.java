@@ -9,12 +9,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class PostingDialog {
+public class PostingEditDialog {
     private Context context;
     String title, article, url, date;
     Double lat, lng;
 
-    public PostingDialog(Context context, String title, String article, Double lat, Double lng, String date) {
+    public PostingEditDialog(Context context, String title, String article, Double lat, Double lng, String date) {
         this.context = context;
         this.title = title;
         this.article = article;
@@ -22,7 +22,7 @@ public class PostingDialog {
         this.lng = lng;
         this.date = date;
     }
-    public PostingDialog(Context context, String title, String article, Double lat, Double lng, String url, String date) {
+    public PostingEditDialog(Context context, String title, String article, Double lat, Double lng, String url, String date) {
         this.context = context;
         this.title = title;
         this.article = article;
@@ -46,16 +46,13 @@ public class PostingDialog {
         article_tv.setText(article);
         date_tv.setText(date);
 
-        if(url == null || url.equals("null")) {
-            image.setVisibility(View.GONE);
-        }
-        else {
-            image.setVisibility(View.VISIBLE);
-            try {
+        if(url == null) image.setVisibility(View.GONE); else image.setVisibility(View.VISIBLE);
+        try {
+            if(url != null) {
                 Uri uri = Uri.parse("file://" + url);
                 image.setImageURI(uri);
-            } catch (Exception e) {
             }
+        } catch (Exception e) {
         }
         Button close = dlg.findViewById(R.id.dialog_submit);
 
@@ -63,7 +60,7 @@ public class PostingDialog {
             @Override
             public void onClick(View v) {
                 dlg.dismiss();
-                ((PostingActivity)context).finish();
+                ((PostingEditActivity)context).finish();
             }
         });
     }

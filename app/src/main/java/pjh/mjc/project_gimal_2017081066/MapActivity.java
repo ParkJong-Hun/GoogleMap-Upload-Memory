@@ -26,7 +26,7 @@ import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
+//지도 창
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     //선언
     MapFragment mapFrag;
@@ -36,7 +36,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     ImageButton post_here;
     DBHelper dbHelper;
     SQLiteDatabase db;
-    String id;
+    public static String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         post_here.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requestLocation();
+                currentLocationPost();
             }
         });
 
@@ -112,6 +112,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 Cursor cursor;
                 cursor = db.rawQuery("SELECT * FROM Post WHERE latitude='" + marker.getPosition().latitude + "' and longitude='" + marker.getPosition().longitude + "' and poster='" + id + "';", null);
                 if(cursor.moveToNext()) {
+                    intent.putExtra("code", cursor.getInt(0));
                     intent.putExtra("title", cursor.getString(1));
                     intent.putExtra("article", cursor.getString(2));
                     intent.putExtra("url", cursor.getString(3));
@@ -119,7 +120,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     intent.putExtra("lng", cursor.getDouble(5));
                     intent.putExtra("date", cursor.getString(6));
                     intent.putExtra("poster", cursor.getString(7));
-                    startActivityForResult(intent, 1);
+                    startActivity(intent);
                     return true;
                 }
                 return false;
@@ -128,8 +129,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    //현재 위치 좌표 요청, 카메라 전환
-    private void requestLocation() {
+    //현재 위치 좌표 요청, 카메라 전환하고 포스트 작성
+    private void currentLocationPost() {
         LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         try {
             //현재 위치 좌표 출력
@@ -211,8 +212,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 new_markerOptions.alpha(0.9f);
                 map.addMarker(new_markerOptions);
             }
-        } else if(requestCode==1){
-
         }
     }
 }

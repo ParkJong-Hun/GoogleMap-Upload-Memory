@@ -13,7 +13,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
-
+//게시글 목록 창
 public class PostListActivity extends AppCompatActivity {
 
     ActionBar actionBar;
@@ -78,6 +78,7 @@ public class PostListActivity extends AppCompatActivity {
         });
     }
 
+    //뒤로가기 이벤트 처리
     public boolean onOptionsItemSelected(MenuItem item) {
         finish();
         return true;

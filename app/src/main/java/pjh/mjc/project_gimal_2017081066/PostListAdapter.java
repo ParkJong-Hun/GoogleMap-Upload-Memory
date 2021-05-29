@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.HashMap;
-
+//커스텀 어댑터
 public class PostListAdapter extends BaseAdapter {
     Context context;
 
