@@ -19,7 +19,7 @@ public class LoginActivity extends AppCompatActivity {
     //선언
     EditText id, password;
     Button userCreateButton, loginButton;
-    UserDBHelper dbHelper;
+    DBHelper dbHelper;
     SQLiteDatabase db;
 
     @Override
@@ -32,8 +32,9 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText)findViewById(R.id.pw);
         userCreateButton = (Button)findViewById(R.id.user_create);
         loginButton = (Button)findViewById(R.id.login);
-        dbHelper = new UserDBHelper(this);
+        dbHelper = new DBHelper(this);
 
+        //외부 저장소에서 이미지 읽기 권한 요청
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MODE_PRIVATE);
         }

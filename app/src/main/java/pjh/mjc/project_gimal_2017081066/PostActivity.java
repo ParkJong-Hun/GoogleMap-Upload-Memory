@@ -50,18 +50,13 @@ public class PostActivity extends AppCompatActivity {
         title_tv.setText(title);
         article_tv.setText(article);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MODE_PRIVATE);
-        }
-
+        //null이 아니면 이미지 표시
         if(!(url.equals("null"))) {
             image.setVisibility(View.VISIBLE);
             try {
                 Uri uri = Uri.parse("file://" + url);
                 image.setImageURI(uri);
-                Toast.makeText(getApplicationContext(), "아아 잘 됨", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
-                e.printStackTrace();
             }
         } else {
             image.setVisibility(View.GONE);

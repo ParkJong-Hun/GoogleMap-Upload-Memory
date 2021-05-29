@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -35,7 +34,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     //+ 그라운드오버레이(투명한 레이어. 기타 맵 기능을 넣음.(마커 등)) 선언
     GroundOverlayOptions videoMark;
     ImageButton post_here;
-    UserDBHelper dbHelper;
+    DBHelper dbHelper;
     SQLiteDatabase db;
     String id;
 
@@ -48,8 +47,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         id = intent.getStringExtra("id");
         setTitle(id);
 
-        ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.ACCESS_FINE_LOCATION}, MODE_PRIVATE);
-
         mapFrag = (MapFragment) getFragmentManager().findFragmentById(R.id.map);//XML로 만든 것을 FragmentManager로 바인딩해서 MapFragment 객체 생성.
         mapFrag.getMapAsync(this);//onMapReady을 비동기 호출해서 불러오기
 
@@ -61,7 +58,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        dbHelper = new UserDBHelper(this);
+        dbHelper = new DBHelper(this);
     }
 
     @Override
@@ -165,11 +162,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         switch (item.getItemId()) {
             case 1:
                 //목록으로 보기
+                Intent intent_list = new Intent(MapActivity.this, PostListActivity.class);
+                intent_list.putExtra("id", id);
+                startActivity(intent_list);
                 return true;
             case 2:
                 //로그아웃
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
+                Intent intent_logout = new Intent(this, LoginActivity.class);
+                startActivity(intent_logout);
                 return true;
         }
         return false;//case에 없는 것 클릭하거나, 아예 클릭 안하면 처리 안함 알림.

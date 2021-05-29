@@ -4,8 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class UserDBHelper extends SQLiteOpenHelper {
-    public UserDBHelper(Context context) { super(context, "gimalDB", null, 1); }
+public class DBHelper extends SQLiteOpenHelper {
+    public DBHelper(Context context) { super(context, "gimalDB", null, 1); }
 
     @Override
     public void onCreate(SQLiteDatabase db) {

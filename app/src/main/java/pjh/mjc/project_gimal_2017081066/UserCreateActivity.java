@@ -2,13 +2,10 @@ package pjh.mjc.project_gimal_2017081066;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,7 +13,7 @@ import android.widget.Toast;
 public class UserCreateActivity extends AppCompatActivity {
     
     //선언
-    UserDBHelper dbHelper;
+    DBHelper dbHelper;
     SQLiteDatabase db;
 
     EditText id, password;
@@ -31,7 +28,7 @@ public class UserCreateActivity extends AppCompatActivity {
         //바인딩
         id = findViewById(R.id.id2);
         password = findViewById(R.id.pw2);
-        dbHelper = new UserDBHelper(this);
+        dbHelper = new DBHelper(this);
 
         //아이디 입력창에 자동으로 포커스
         id.requestFocus();
