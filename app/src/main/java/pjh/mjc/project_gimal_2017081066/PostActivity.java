@@ -1,24 +1,15 @@
 package pjh.mjc.project_gimal_2017081066;
 
-import android.Manifest;
-import android.content.ContentProvider;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
-import java.io.File;
-import java.io.InputStream;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -26,11 +17,15 @@ public class PostActivity extends AppCompatActivity {
     Double lat, lng;
     TextView title_tv, article_tv, date_tv;
     ImageView image;
+    ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post);
+
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
@@ -62,5 +57,10 @@ public class PostActivity extends AppCompatActivity {
             image.setVisibility(View.GONE);
         }
         date_tv.setText(date);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+        return true;
     }
 }

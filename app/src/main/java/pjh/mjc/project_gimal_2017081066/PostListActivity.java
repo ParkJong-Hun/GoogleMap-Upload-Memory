@@ -4,21 +4,27 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PostListActivity extends AppCompatActivity {
+
+    ActionBar actionBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_list);
+
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         ListView list;
 
@@ -56,7 +62,7 @@ public class PostListActivity extends AppCompatActivity {
                 SQLiteDatabase db;
                 db = dbHelper.getReadableDatabase();
                 //해당 클릭한 것의 코드를 불러오기
-                int currentKey = key.get(position);
+                int currentKey = key.get(position + 1);
                 cursor = db.rawQuery("SELECT * FROM Post WHERE code = " + currentKey + ";", null);
                 if(cursor.moveToNext()) {
                     intent.putExtra("title", cursor.getString(1));
@@ -70,5 +76,10 @@ public class PostListActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+        return true;
     }
 }

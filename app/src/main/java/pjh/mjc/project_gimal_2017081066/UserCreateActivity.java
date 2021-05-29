@@ -3,6 +3,7 @@ package pjh.mjc.project_gimal_2017081066;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,8 @@ public class UserCreateActivity extends AppCompatActivity {
 
     EditText id, password;
     Button cancel, submit;
+
+    Boolean id_overlap = false;
 
 
     @Override
@@ -50,10 +53,20 @@ public class UserCreateActivity extends AppCompatActivity {
                 //아이디 비밀번호 입력 값 받아오고 디비 켜기.
                 String idInput = id.getText().toString();
                 String pwInput = password.getText().toString();
-                db = dbHelper.getWritableDatabase();
                 //조건에 맞지 않으면 회원가입 안되게 하기
-                //TODO: 회원가입할 때 중복된 아이디가 있는지 체크
-                if(!(idInput.equals("") || pwInput.equals(""))) {
+                db = dbHelper.getReadableDatabase();
+                Cursor cursor;
+                cursor = db.rawQuery("SELECT id FROM User WHERE id = '" + idInput + "';", null);
+                if(cursor.moveToNext()) {
+                    id_overlap = true;
+                } else {
+                    id_overlap = false;
+                }
+                db.close();
+
+                //회원가입할 때 중복된 아이디가 있는지, 공백인지, 길이가 긴지 체크
+                if(!(idInput.equals("") || pwInput.equals("") || id_overlap)) {
+                    db = dbHelper.getWritableDatabase();
                     db.execSQL("INSERT INTO User VALUES ('" + idInput + "', '" + pwInput + "');");
                     db.close();
 
@@ -62,8 +75,10 @@ public class UserCreateActivity extends AppCompatActivity {
                     submit_intent.putExtra("password", pwInput);
                     setResult(RESULT_OK, submit_intent);
                     finish();
-                } else if (idInput.length() > 15 || pwInput.length() > 15){
+                } else if (idInput.length() > 15 || pwInput.length() > 15) {
                     Toast.makeText(getApplicationContext(), "15자 이내로 입력해주세요.", Toast.LENGTH_SHORT).show();
+                } else if (id_overlap) {
+                    Toast.makeText(getApplicationContext(), "이미 존재하는 아이디입니다.", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "정보를 모두 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }

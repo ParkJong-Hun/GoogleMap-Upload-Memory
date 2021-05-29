@@ -1,19 +1,13 @@
 package pjh.mjc.project_gimal_2017081066;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.core.app.ActivityCompat;
 
 public class PostingDialog {
     private Context context;
