@@ -1,8 +1,11 @@
 package pjh.mjc.project_gimal_2017081066;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -30,6 +33,10 @@ public class LoginActivity extends AppCompatActivity {
         userCreateButton = (Button)findViewById(R.id.user_create);
         loginButton = (Button)findViewById(R.id.login);
         dbHelper = new UserDBHelper(this);
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MODE_PRIVATE);
+        }
 
         //로그인 버튼
         loginButton.setOnClickListener(new View.OnClickListener() {

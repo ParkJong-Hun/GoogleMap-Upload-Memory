@@ -80,6 +80,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             map.setMyLocationEnabled(true);//현재 위치 설정
             map.getUiSettings().setMyLocationButtonEnabled(true);//내 위치 버튼 사용
         }
+
         map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {

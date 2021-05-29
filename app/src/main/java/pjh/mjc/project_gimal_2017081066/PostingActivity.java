@@ -3,6 +3,7 @@ package pjh.mjc.project_gimal_2017081066;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -118,11 +119,21 @@ public class PostingActivity extends AppCompatActivity {
         if (requestCode == 0) {
             try {//이미지 선택안하고 돌아올 수 있으니깐 nullPointException 안되게
                 uri = data.getData();
-                url_str = uri.toString();
+                url_str = getPath(uri);
                 url_text.setText(url_str);
             } catch (Exception e) {
                 url_text.setText("...");
             }
         }
+    }
+
+    //Uri content를 이미지의 절대주소로 변환
+    public String getPath(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        startManagingCursor(cursor);
+        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(columnIndex);
     }
 }

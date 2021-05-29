@@ -1,7 +1,9 @@
 package pjh.mjc.project_gimal_2017081066;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -10,6 +12,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.core.app.ActivityCompat;
 
 public class PostingDialog {
     private Context context;
@@ -47,11 +51,11 @@ public class PostingDialog {
         title_tv.setText(title);
         article_tv.setText(article);
         date_tv.setText(date);
+
         if(url == null) image.setVisibility(View.GONE); else image.setVisibility(View.VISIBLE);
         try {
-            Uri uri = Uri.parse(url);
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-            image.setImageBitmap(bitmap);
+            Uri uri = Uri.parse("file://" + url);
+            image.setImageURI(uri);
         } catch (Exception e) {
         }
         Button close = dlg.findViewById(R.id.dialog_submit);
