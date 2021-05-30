@@ -1,4 +1,4 @@
-package pjh.mjc.MarkMyMemory_2017081066;
+package pjh.mjc.Project_GIMAL_2017081066;
 
 import android.Manifest;
 import android.content.Context;
@@ -65,7 +65,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {//지도 초기화
         map = googleMap;//생성자를 통해 생성된 구글맵 객체를 가져옴.
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(37.568256, 126.897240), 15));//카메라 초기화할 때 좌표 지정.(명지전문대학)
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(37,126), 1));//카메라 초기 설정
         map.getUiSettings().setZoomControlsEnabled(true);//줌 컨트롤 모드 키기.
 
         //현재 위치
@@ -105,13 +105,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                //이동
-
+                //좌표가 일치하고 아이디가 동일한 게시글을 검색
+                //게시글 화면으로 이동하는 인텐트
                 Intent intent = new Intent(MapActivity.this, PostActivity.class);
                 db = dbHelper.getReadableDatabase();
                 Cursor cursor;
                 cursor = db.rawQuery("SELECT * FROM Post WHERE latitude='" + marker.getPosition().latitude + "' and longitude='" + marker.getPosition().longitude + "' and poster='" + id + "';", null);
                 if(cursor.moveToNext()) {
+                    //일치하는 하나의 튜플에서 값 가져오기
                     intent.putExtra("code", cursor.getInt(0));
                     intent.putExtra("title", cursor.getString(1));
                     intent.putExtra("article", cursor.getString(2));
@@ -120,13 +121,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     intent.putExtra("lng", cursor.getDouble(5));
                     intent.putExtra("date", cursor.getString(6));
                     intent.putExtra("poster", cursor.getString(7));
+                    intent.putExtra("map_click", true);
+                    //이동
                     startActivity(intent);
                     return true;
                 }
                 return false;
             }
         });
-
+        
+        //위치 정보 구하기
     }
 
     //현재 위치 좌표 요청, 카메라 전환하고 포스트 작성

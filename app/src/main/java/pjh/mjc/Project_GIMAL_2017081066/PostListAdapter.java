@@ -1,4 +1,4 @@
-package pjh.mjc.MarkMyMemory_2017081066;
+package pjh.mjc.Project_GIMAL_2017081066;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,7 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.HashMap;
 //커스텀 어댑터
 public class PostListAdapter extends BaseAdapter {
@@ -46,9 +48,17 @@ public class PostListAdapter extends BaseAdapter {
         date_tv = convertView.findViewById(R.id.post_list_component_date);
 
         //HashMap의 각 값들을 넣기.
-        title_tv.setText(title.get(position + 1).toString());
-        date_tv.setText(date.get(position + 1).toString());
-
+        int minKey = Collections.min(title.keySet());
+        try {
+            title_tv.setText(title.get(position + minKey).toString());
+            date_tv.setText(date.get(position + minKey).toString());
+        } catch (Exception e){
+            while(title.get(position + minKey) == null) {
+                minKey += 1;
+                title_tv.setText(title.get(position + minKey).toString());
+                date_tv.setText(date.get(position + minKey).toString());
+            }
+        }
         return convertView;
     }
 }

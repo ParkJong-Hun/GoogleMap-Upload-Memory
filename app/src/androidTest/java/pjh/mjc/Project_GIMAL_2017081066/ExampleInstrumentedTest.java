@@ -1,4 +1,4 @@
-package pjh.mjc.MarkMyMemory_2017081066;
+package pjh.mjc.Project_GIMAL_2017081066;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("pjh.mjc.project_gimal_2017081066", appContext.getPackageName());
+        assertEquals("pjh.mjc.Project_GIMAL_2017081066", appContext.getPackageName());
     }
 }

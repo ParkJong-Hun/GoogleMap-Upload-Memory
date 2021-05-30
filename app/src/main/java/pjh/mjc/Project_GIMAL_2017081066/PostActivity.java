@@ -1,4 +1,4 @@
-package pjh.mjc.MarkMyMemory_2017081066;
+package pjh.mjc.Project_GIMAL_2017081066;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,9 +13,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Map;
+
 //게시글창
 public class PostActivity extends AppCompatActivity {
 
+    Boolean map_click;
     String title, article, url, date, poster;
     Double lat, lng;
     int code;
@@ -42,6 +45,7 @@ public class PostActivity extends AppCompatActivity {
         lng = intent.getDoubleExtra("lng", 0);
         date = intent.getStringExtra("date");
         poster = intent.getStringExtra("poster");
+        map_click = intent.getBooleanExtra("map_click", false);
 
         setTitle(poster);
 
@@ -59,7 +63,6 @@ public class PostActivity extends AppCompatActivity {
         if(!(url.equals("null"))) {
             image.setVisibility(View.VISIBLE);
             try {
-                Toast.makeText(getApplicationContext(), url, Toast.LENGTH_SHORT).show();
                 Uri uri = Uri.parse("file://" + url);
                 image.setImageURI(uri);
             } catch (Exception e) {
@@ -69,38 +72,40 @@ public class PostActivity extends AppCompatActivity {
         }
         date_tv.setText(date);
 
-        //작성자의 글이라면
+        //작성자의 글이라면, 맵에서 클릭했다면
         if(MapActivity.id.equals(poster)) {
-            edit.setVisibility(View.VISIBLE);
-            delete.setVisibility(View.VISIBLE);
-            //편집
-            edit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), PostingEditActivity.class);
-                    intent.putExtra("Lat", lat);
-                    intent.putExtra("Lng", lng);
-                    intent.putExtra("title", title);
-                    intent.putExtra("article", article);
-                    intent.putExtra("url", url);
-                    startActivityForResult(intent, 0);
-                }
-            });
-            //삭제
-            delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    db = dbHelper.getWritableDatabase();
-                    db.execSQL("DELETE FROM Post WHERE code = " + code + ";");
-                    Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-                    intent.putExtra("id", MapActivity.id);
-                    startActivity(intent);
-                    finish();
-                }
-            });
-        } else {
-            edit.setVisibility(View.GONE);
-            delete.setVisibility(View.GONE);
+            if (map_click) {
+                edit.setVisibility(View.VISIBLE);
+                delete.setVisibility(View.VISIBLE);
+                //편집
+                edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), PostingEditActivity.class);
+                        intent.putExtra("Lat", lat);
+                        intent.putExtra("Lng", lng);
+                        intent.putExtra("title", title);
+                        intent.putExtra("article", article);
+                        intent.putExtra("url", url);
+                        startActivityForResult(intent, 0);
+                    }
+                });
+                //삭제
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        db = dbHelper.getWritableDatabase();
+                        db.execSQL("DELETE FROM Post WHERE code = " + code + ";");
+                        Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                        intent.putExtra("id", MapActivity.id);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+            } else {
+                edit.setVisibility(View.GONE);
+                delete.setVisibility(View.GONE);
+            }
         }
     }
 

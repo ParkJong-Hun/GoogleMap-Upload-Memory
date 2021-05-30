@@ -1,4 +1,4 @@
-package pjh.mjc.MarkMyMemory_2017081066;
+package pjh.mjc.Project_GIMAL_2017081066;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,9 +9,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Collections;
 import java.util.HashMap;
 //게시글 목록 창
 public class PostListActivity extends AppCompatActivity {
@@ -62,7 +64,16 @@ public class PostListActivity extends AppCompatActivity {
                 SQLiteDatabase db;
                 db = dbHelper.getReadableDatabase();
                 //해당 클릭한 것의 코드를 불러오기
-                int currentKey = key.get(position + 1);
+                int minKey = Collections.min(title.keySet());
+                int currentKey = key.get(minKey);
+                try {
+                    currentKey = key.get(position + minKey);
+                } catch(Exception e) {
+                    while (key.get(position + minKey) == null) {
+                        minKey += 1;
+                        currentKey = key.get(position + minKey);
+                    }
+                }
                 cursor = db.rawQuery("SELECT * FROM Post WHERE code = " + currentKey + ";", null);
                 if(cursor.moveToNext()) {
                     intent.putExtra("title", cursor.getString(1));
@@ -72,6 +83,7 @@ public class PostListActivity extends AppCompatActivity {
                     intent.putExtra("lng", cursor.getDouble(5));
                     intent.putExtra("date", cursor.getString(6));
                     intent.putExtra("poster", cursor.getString(7));
+                    intent.putExtra("map_click", false);
                     startActivityForResult(intent, 1);
                 }
             }

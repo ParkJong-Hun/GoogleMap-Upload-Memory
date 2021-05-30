@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="pjh.mjc.MarkMyMemory_2017081066">
+    package="pjh.mjc.Project_GIMAL_2017081066">
 
     <uses-feature
         android:required="true"
         android:glEsVersion="0x00020000"/>
     <permission
-        android:name="pjh.mjc.MarkMyMemory_2017081066.permission.MAPS_RECEIVE"
+        android:name="pjh.mjc.Project_GIMAL_2017081066.permission.MAPS_RECEIVE"
         android:label="signiture"/>
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -28,7 +28,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_app_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Project_GIMAL_2017081066"
+        android:theme="@style/MarkMyMemory_2017081066"
         android:requestLegacyExternalStorage="true">
 
         <uses-library
@@ -39,7 +39,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD-JAf3163wmqS0HNAq96QMrO7PBNeSklc"/>
 
-        <activity android:name="pjh.mjc.MarkMyMemory_2017081066.LoginActivity">
+        <activity android:name="pjh.mjc.Project_GIMAL_2017081066.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,12 +47,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="pjh.mjc.MarkMyMemory_2017081066.UserCreateActivity" android:windowSoftInputMode="adjustResize" android:label="회원가입"></activity>
-        <activity android:name="pjh.mjc.MarkMyMemory_2017081066.MapActivity" android:label="내지도"></activity>
-        <activity android:name="pjh.mjc.MarkMyMemory_2017081066.PostingActivity" android:label="게시글 작성"></activity>
-        <activity android:name="pjh.mjc.MarkMyMemory_2017081066.PostActivity" android:label="게시글"></activity>
-        <activity android:name="pjh.mjc.MarkMyMemory_2017081066.PostListActivity" android:label="목록으로 보기"></activity>
-        <activity android:name="pjh.mjc.MarkMyMemory_2017081066.PostingEditActivity" android:label="게시글 편집"></activity>
+        <activity android:name="pjh.mjc.Project_GIMAL_2017081066.UserCreateActivity" android:windowSoftInputMode="adjustResize" android:label="회원가입"></activity>
+        <activity android:name="pjh.mjc.Project_GIMAL_2017081066.MapActivity" android:label="내지도"></activity>
+        <activity android:name="pjh.mjc.Project_GIMAL_2017081066.PostingActivity" android:label="게시글 작성"></activity>
+        <activity android:name="pjh.mjc.Project_GIMAL_2017081066.PostActivity" android:label="게시글"></activity>
+        <activity android:name="pjh.mjc.Project_GIMAL_2017081066.PostListActivity" android:label="목록으로 보기"></activity>
+        <activity android:name="pjh.mjc.Project_GIMAL_2017081066.PostingEditActivity" android:label="게시글 편집"></activity>
     </application>
 
 </manifest>
